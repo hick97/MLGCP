@@ -1,4 +1,3 @@
-
 import java.util.LinkedList;
 import java.util.Scanner;
 
@@ -35,7 +34,7 @@ public class Main {
 //        }
         //Frequancia de cada cor.
         int[] cFreq = new int[nLabels];
-        cFreq = CollorNumber(leftPart, rightPart,Matrix,nLabels);
+        cFreq = ColorNumber(leftPart, rightPart,Matrix,nLabels);
         
         //Imprime a frequencia.
         System.out.printf("Frequência: ");       
@@ -64,7 +63,7 @@ public class Main {
 
     }
     // Metodo que calcula o numero de cores diferentes entre a parte da direita e esquerda.
-    public static int[] CollorNumber (int left[], int right[],int Matrix[][], int nLabels){
+    public static int[] ColorNumber (int left[], int right[],int Matrix[][], int nLabels){
         
         // Mede a frequencia das cores.
         int[] cFreq =  new int [nLabels];
@@ -75,14 +74,14 @@ public class Main {
        //Acessa as listas da esquerda e direita e verifica a frequência de cada cor.
        for (int i = 0; i < left.length; i++) {
             for (int j = 0; j < right.length; j++) {
-                int collor = Matrix[left[i]][right[j]];
-                if(collor != nLabels){
+                int color = Matrix[left[i]][right[j]];
+                if(color != nLabels){
                     // verifca se a cor já foi computada.
-                    if(cFreq[collor]==0){
+                    if(cFreq[color]==0){
                         cNumber++;
-                        cFreq [collor]++;
+                        cFreq [color]++;
                     }else{
-                        cFreq [collor]++;
+                        cFreq [color]++;
                     }
                 }
                 
