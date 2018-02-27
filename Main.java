@@ -16,7 +16,7 @@ public class Main {
         // Prennche Matriz.
         Matrix = FillsMatrix(nVertex);
 
-        // Divide os vertices em dois grupos.
+        // Divide os vertices em dois grupos. obs: Assumindo uma quantidade de vertices pares.
         int[] leftPart = new int[nVertex / 2];
         int[] rightPart = new int[nVertex / 2];
         int j = 0;
