@@ -32,7 +32,7 @@ public class Main {
 //        for (int i = 0; i < nVertex/2; i++){
 //        System.out.println("lado esquerdo: "+ leftPart[i]+"\nlado direito: "+ rightPart[i]);
 //        }
-        //Frequancia de cada cor.
+        //Frequencia de cada cor.
         int[] cFreq = new int[nLabels];
         cFreq = ColorNumber(leftPart, rightPart,Matrix,nLabels);
         
