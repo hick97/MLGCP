@@ -17,5 +17,4 @@ Frequency: {1,2}.
 3 3 2 3 3 3
 
 ColorsNumber: 3.
-
 Frequency: {1,2,1}.
