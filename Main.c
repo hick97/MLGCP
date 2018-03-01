@@ -1,18 +1,64 @@
 #include <stdio.h>
 #include <vector>
+using namespace std;
+// Metodo que preenche a matriz.
+void FillsMatrix(int nVert, int** MatrixP) {
 
+        for (int i = 0; i < nVert; i++) {
+            for (int j = 0; j < nVert; j++) {
+                int label;
+                scanf("%d", &label);
+                MatrixP[i][j] = label;
 
-static int cNumber = 0;
+            }
+
+        }
+
+        return;
+
+    }
+// Metodo que calcula o numero de cores diferentes entre a parte da direita e esquerda.
+int ColorNumber(vector<int> left, vector<int> right, int** Matrix, int nLabels, int *cFreq) {
+    int cNumber = 0;
+	// Preenche a frequencia com zeros.
+	for (int i = 0; i < nLabels; i++) {
+		cFreq[i] = 0;
+	}
+	//Acessa as listas da esquerda e direita e verifica a frequÃªncia de cada cor.
+	for (int i = 0; i < left.size(); i++) {
+		for (int j = 0; j < right.size(); j++) {
+			printf("Comparando: %d com %d\n ", left[i], right[i]);
+			int color = Matrix[left[i]][right[i]];
+			if (color != nLabels) {
+				printf("Cor: \n", color);
+				// verifca se a cor jÃ¡ foi computada.
+				if (cFreq[color] == 0) {
+					cNumber++;
+					cFreq[color]++;
+				} else {
+					cFreq[color]++;
+				}
+			}else{
+				printf("Sem cor!\n");
+			}
+            }
+
+        }
+
+        return cNumber;
+    }
+
 int main(void){
-	// Recebe a quantidade de vértices e cores.
+	// Recebe a quantidade de vÃ©rtices e cores.
 	int nVertex;
 	int nLabels;
 	scanf("%d %d", &nVertex, &nLabels);
 
 	// Cria a matriz de adjacencia.
-	int Matrix[nVertex][nVertex];
+	int Matrix[nVertex][nVertex];;
+
 	// Prennche Matriz.
-	Matrix = FillsMatrix(nVertex);
+	FillsMatrix(nVertex, &Matrix);
 	vector<int> leftPart;
 	vector<int> rightPart;
 
@@ -40,10 +86,10 @@ int main(void){
 
         //Frequencia de cada cor.
         int cFreq[nLabels];
-        cFreq = ColorNumber(leftPart, rightPart, Matrix, nLabels);
+        int cNumber = ColorNumber(&leftPart, &rightPart, &Matrix, nLabels, &cFreq);
 
         //Imprime a frequencia.
-        printf("Frequência: ");
+        printf("FrequÃªncia: ");
         for (int i = 0; i < nLabels; i++) {
             printf("%d", cFreq[i]);
         }
@@ -54,54 +100,3 @@ int main(void){
 
 	return 0;
 }
-// Metodo que preenche a matriz.
-    public static int[][] FillsMatrix(int nVert) {
-
-        int[][] MatrixP = new int[nVert][nVert];
-
-        for (int i = 0; i < nVert; i++) {
-            for (int j = 0; j < nVert; j++) {
-                int label;
-                scanf("%d", &label);
-                MatrixP[i][j] = label;
-
-            }
-
-        }
-
-        return MatrixP;
-
-    }
-// Metodo que calcula o numero de cores diferentes entre a parte da direita e esquerda.
-int[] ColorNumber(vector<int> left, vector<int> right, int Matrix[][], int nLabels) {
-
-	// Mede a frequencia das cores.
-	int cFreq[nLabels];
-
-	// Preenche a frequencia com zeros.
-	for (int i = 0; i < nLabels; i++) {
-		cFreq[i] = 0;
-	}
-	//Acessa as listas da esquerda e direita e verifica a frequência de cada cor.
-	for (int i = 0; i < left.size(); i++) {
-		for (int j = 0; j < right.size(); j++) {
-			printf("Comparando: %d com %d\n ", left[i], right[i]);
-			int color = Matrix[left[i]][right[i]];
-			if (color != nLabels) {
-				printf("Cor: \n", color);
-				// verifca se a cor já foi computada.
-				if (cFreq[color] == 0) {
-					cNumber++;
-					cFreq[color]++;
-				} else {
-					cFreq[color]++;
-				}
-			}else{
-				printf("Sem cor!\n");
-			}
-            }
-
-        }
-
-        return cFreq;
-    }
