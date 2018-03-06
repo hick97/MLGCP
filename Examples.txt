@@ -30,5 +30,5 @@ fitness: 3.
 Frequency: {0,2,1}
 leftoright(0) -> Frequency: {1,1,0}
 fitness: 2;
-rightoleft(4) -> Frequency: {3,1,1}
+rightoleft(2) -> Frequency: {3,1,1}
 fitness: 3;
