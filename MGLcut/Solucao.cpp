@@ -10,14 +10,14 @@ Solucao::Solucao(Grafo *grafo) : cFreq(grafo->nLabels, 0), aval(0), g(grafo)
 int Solucao::f()
 {
     this->aval = 0;
-	//Acessa as listas da esquerda e direita e verifica a frequência de cada cor.
+	//Acessa as listas da esquerda e direita e verifica a frequÃªncia de cada cor.
 	for (int i = 0; i < this->left.size(); i++) {
 		for (int j = 0; j < this->right.size(); j++) {
 			printf("Comparando: %d com %d\n ", this->left[i], this->right[j]);
 			int color = this->g->M[left[i]][right[j]];
 			if (color != this->g->nLabels) {
 				printf("Cor: %d\n", color);
-				// verifca se a cor já foi computada.
+				// verifca se a cor jÃ¡ foi computada.
 				if (this->cFreq[color] == 0) {
 					this->aval++;
 					this->cFreq[color]++;
@@ -35,23 +35,23 @@ int Solucao::f()
 // Movimento esquerda-direta.
 void Solucao::leftoright (int pos){
     printf("Movimento ESQUERDA-DIREITA\n");
-// Garantindo que meu iterador sempre ficará no inicio do vector.
+// Garantindo que meu iterador sempre ficarÃ¡ no inicio do vector.
     this->it2 = this->left.begin();
-    // Referenciando posição a ser apagada.
+    // Referenciando posiÃ§Ã£o a ser apagada.
     it2 = it2 + pos;
 
     // Adciona na direita e o apaga na esquerda
     this->right.push_back(this->left[pos]);
     this->left.erase(this->it2);
 
-    // verifica as ligações com o lado esquerdo.
+    // verifica as ligaÃ§Ãµes com o lado esquerdo.
     for(int i = 0; i<this->left.size();i++){
             // Recebe a "cor" do ultimo elemento da direita e compara com a esquerda.
             int color = this->g->M[right[right.size()-1]][left[i]];
-        //Incrementação do aval e frequencia.
+        //IncrementaÃ§Ã£o do aval e frequencia.
             if (color != this->g->nLabels) {
                // printf("Cor: %d\n", color);
-				// verifca se a cor já foi computada.
+				// verifca se a cor jÃ¡ foi computada.
 				if (this->cFreq[color] == 0) {
 					this->aval++;
 					this->cFreq[color]++;
@@ -60,12 +60,12 @@ void Solucao::leftoright (int pos){
 				}
             }
     }
-    //Verifica as ligações com o lado direito.
+    //Verifica as ligaÃ§Ãµes com o lado direito.
     for(int i = 0; i<this->right.size();i++){
 
            int color = this->g->M[right[right.size()-1]][right[i]];
 
-        //Decrementação do aval e frequencia.
+        //DecrementaÃ§Ã£o do aval e frequencia.
         if (color != this->g->nLabels) {
             this->cFreq[color]--;
             // verifica se a frequencia da cor foi pra zero, caso positivo, decremento aval.
@@ -81,23 +81,23 @@ void Solucao::leftoright (int pos){
 //Movimento direita-esquerda.
 void Solucao::rightoleft (int pos){
     printf("Movimento DIREITA-ESQUERDA: \n");
-// Garantindo que meu iterador sempre ficará no inicio do vector.
+// Garantindo que meu iterador sempre ficarÃ¡ no inicio do vector.
    this->it = this->right.begin();
-// Referenciando a posição a ser apagada.
+// Referenciando a posiÃ§Ã£o a ser apagada.
     it = it + pos;
 
     this->left.push_back(this->right[pos]);
     this->right.erase(this->it);
 
-    // verifica as ligações com o lado direito.
+    // verifica as ligaÃ§Ãµes com o lado direito.
     for(int i = 0; i<this->right.size();i++){
 
             int color = this->g->M[left[left.size()-1]][right[i]];
 
-    //Incrementação do aval e frequencia.
+    //IncrementaÃ§Ã£o do aval e frequencia.
             if (color != this->g->nLabels) {
                 //printf("Cor: %d\n", color);
-				// verifca se a cor já foi computada.
+				// verifca se a cor jÃ¡ foi computada.
 				if (this->cFreq[color] == 0) {
 					this->aval++;
 					this->cFreq[color]++;
@@ -106,12 +106,12 @@ void Solucao::rightoleft (int pos){
 				}
             }
     }
-    //Verifica as ligações com o lado esquerdo.
+    //Verifica as ligaÃ§Ãµes com o lado esquerdo.
     for(int i = 0; i<this->left.size();i++){
 
         int color = this->g->M[left[left.size()-1]][left[i]];
 
-//Decrementação do aval e frequencia.
+//DecrementaÃ§Ã£o do aval e frequencia.
         if (color != this->g->nLabels) {
             this->cFreq[color]--;
             // verifica se a frequencia da cor foi pra zero, caso positivo, decremento aval.
@@ -126,43 +126,43 @@ void Solucao::rightoleft (int pos){
 }
 
 void Solucao::avalChangePartition(int *v){
-    int menor = this->aval; // Assumindo que o menor é meu aval da solução original;
-    int ladoF = -1; // Assumind0 que -1 é o lado da solução original.
-    int posF = -1;// Assumind0 que -1 é a pos da solução original.
+    int menor = this->aval; // Assumindo que o menor Ã© meu aval da soluÃ§Ã£o original;
+    int ladoF = -1; // Assumind0 que -1 Ã© o lado da soluÃ§Ã£o original.
+    int posF = -1;// Assumind0 que -1 Ã© a pos da soluÃ§Ã£o original.
 
     // for que percorre todos os vertices.
     for(int i = 0; i<this->g->n;i++){
-        vector<int> cFreqCopy = this-> cFreq; // vector de cópia. se der errado faz um for.
+        vector<int> cFreqCopy = this-> cFreq; // vector de cÃ³pia. se der errado faz um for.
         int fS = 0; // variavel que recebe a f(s').
         int newColors = 0;// cores novas.
         int cRemoved = 0; // cores removidas.
-        int lado = 0;// Assumimos que ele começa no lado direito.
-        int pos = 0; // posição em que se encontra meu elemento .
+        int lado = 0;// Assumimos que ele comeÃ§a no lado direito.
+        int pos = 0; // posiÃ§Ã£o em que se encontra meu elemento .
 
-        //verificamos se ele está no lado esquerdo, caso positivo, lado =1.
+        //verificamos se ele estÃ¡ no lado esquerdo, caso positivo, lado =1.
         for(int j=0; j<this->left.size();j++){
             if(this->left.at(j)== i){
-                lado = 1;// está no lado esquerdo.
-                pos = j; // pego a posição dele no vector.
+                lado = 1;// estÃ¡ no lado esquerdo.
+                pos = j; // pego a posiÃ§Ã£o dele no vector.
             }
         }
-        //verificamos se ele está no lado direito, caso positivo, lado =0.
+        //verificamos se ele estÃ¡ no lado direito, caso positivo, lado =0.
         for(int j=0; j<this->right.size();j++){
             if(this->right.at(j)== i){
-                pos = j;// pego a posição do elemento no vector.
+                pos = j;// pego a posiÃ§Ã£o do elemento no vector.
             }
         }
         printf("LADO: %d, POS: %d\n", lado, pos);
         // Caso ele esteja no lado esquerdo indo para o direito:
         if(lado == 1){
             for(int j=0; j<this->left.size();j++){
-            // Verifica existencia de ligações com elementos da esquerda.
+            // Verifica existencia de ligaÃ§Ãµes com elementos da esquerda.
 
                 int color = this->g->M[left[pos]][left[j]];
-            //Incrementação do aval e frequencia.
+            //IncrementaÃ§Ã£o do aval e frequencia.
                 if (color != this->g->nLabels) {
                    // printf("Cor: %d\n", color);
-                    // verifca se a cor já foi computada.
+                    // verifca se a cor jÃ¡ foi computada.
                     if (cFreqCopy[color] == 0) {
 
                         newColors++;
@@ -172,7 +172,7 @@ void Solucao::avalChangePartition(int *v){
                     }
                 }
             }
-            // Verifica a existencia de ligações com elementos da direita.
+            // Verifica a existencia de ligaÃ§Ãµes com elementos da direita.
             for(int j = 0; j<this->right.size();j++){
 
                int color = this->g->M[left[pos]][right[j]];
@@ -190,12 +190,12 @@ void Solucao::avalChangePartition(int *v){
         // Caso ele esteja no lado direito indo para o esquerdo:
         }else{
             for(int j=0; j<this->right.size();j++){
-            // Verifica existencia de ligações com elementos da esquerda.
+            // Verifica existencia de ligaÃ§Ãµes com elementos da direita.
                 int color = this->g->M[right[pos]][right[j]];
-            //Incrementação do aval e frequencia.
+            //IncrementaÃ§Ã£o do aval e frequencia.
                 if (color != this->g->nLabels) {
                    // printf("Cor: %d\n", color);
-                    // verifca se a cor já foi computada.
+                    // verifca se a cor jÃ¡ foi computada.
                     if (cFreqCopy[color] == 0) {
                         newColors++;
                         cFreqCopy[color]++;
@@ -204,7 +204,7 @@ void Solucao::avalChangePartition(int *v){
                     }
                 }
             }
-            // Verifica a existencia de ligações com elementos da direita.
+            // Verifica a existencia de ligaÃ§Ãµes com elementos da esquerda.
             for(int j = 0; j<this->left.size();j++){
                int color = this->g->M[right[pos]][left[j]];
                 //Cores removidas.
@@ -226,7 +226,7 @@ void Solucao::avalChangePartition(int *v){
             if(fS <= menor){
                 printf("%d eh menor ou igual do que %d\n", fS, menor);
                 menor = fS; // minha menor f(s) passa a ser f(s').
-                posF = pos; // Posição da menor f(s').
+                posF = pos; // PosiÃ§Ã£o da menor f(s').
                 ladoF = lado; // lado da menor f(s').
             }
 
@@ -234,6 +234,6 @@ void Solucao::avalChangePartition(int *v){
     }
         printf("Minha menor f(s') tem valor: %d, POS: %d e lado: %d\n", menor, posF, ladoF);
         v[0] = ladoF; // retorna o lado .
-        v[1] = posF; // retorna a posição;
+        v[1] = posF; // retorna a posiÃ§Ã£o;
 
 }
