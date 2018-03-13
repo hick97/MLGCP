@@ -6,6 +6,11 @@
 Solucao::Solucao(Grafo *grafo) : cFreq(grafo->nLabels, 0), aval(0), g(grafo)
 {
 }
+
+Solucao::Solucao(Solucao &sol) : cFreq(sol.cFreq), aval(sol.aval), g(sol.g)
+{
+}
+
 // Encontra o meu aval.
 int Solucao::f()
 {
