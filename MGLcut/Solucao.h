@@ -16,6 +16,7 @@ struct Solucao
 
 
        Solucao(Grafo *grafo);
+       Solucao(Solucao &sol);
        int f();
        void leftoright(int a);
        void rightoleft(int b);
