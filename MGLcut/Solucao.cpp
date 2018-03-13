@@ -146,12 +146,14 @@ void Solucao::avalChangePartition(int *v){
                 pos = j; // pego a posição dele no vector.
             }
         }
+	if(lado == 0){ // Caso n esteja no lado esquerdo -> pego posição no direito.
         //verificamos se ele está no lado direito, caso positivo, lado =0.
         for(int j=0; j<this->right.size();j++){
             if(this->right.at(j)== i){
                 pos = j;// pego a posição do elemento no vector.
             }
         }
+	}
         printf("LADO: %d, POS: %d\n", lado, pos);
         // Caso ele esteja no lado esquerdo indo para o direito:
         if(lado == 1){
