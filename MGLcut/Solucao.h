@@ -6,9 +6,9 @@ using namespace std;
 struct Solucao
 {
        vector<int> right;
-       std::vector<int>::iterator it;
+
        vector<int> left;
-       std::vector<int>::iterator it2;
+
        vector<int> cFreq;
 
        int aval;
