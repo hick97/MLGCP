@@ -68,13 +68,17 @@ int main(void){
         printf("\n");
         //Imprime o numero de cores:
         printf("Aval: %d \n", sol.aval);
+
         //Struct que recebe posição e lado da melhor f(s').
-
-        sol.avalChangePartition();
-
+        Data *d = new Data;
+        sol.avalChangePartition(d);
         Solucao *solCopy = new Solucao(sol);
-        sol.BestMoviment(solCopy);
-        //printf("%d, %d", fsl[0], fsl[1]);
+        sol.BestMoviment(solCopy, d);
+
+        sol.avalInterchangePartition(d);
+        Solucao *solCopy2 = new Solucao(sol);
+        sol.BestMovimentInterchange(solCopy2, d);
+
 
 
         //Imprime a frequencia.

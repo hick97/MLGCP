@@ -2,6 +2,13 @@
 #include "Grafo.h"
 
 using namespace std;
+struct Data
+{
+         int pos = 0;
+         int side = 0;
+         int leftPosInter = 0;
+         int rightPosInter = 0;
+};
 
 struct Solucao
 {
@@ -17,15 +24,13 @@ struct Solucao
        int f();
        void leftoright(int a);
        void rightoleft(int b);
-       void avalChangePartition();
-       void BestMoviment(Solucao *solCopy);
+       void avalChangePartition(Data *d);
+       void avalInterchangePartition(Data *d);
+       void BestMoviment(Solucao *solCopy, Data *d);
+       void BestMovimentInterchange(Solucao *solCopy, Data *d);
 
 };
-struct PL
-{
-         int pos;
-         int lado;
-};
+
 
 
 

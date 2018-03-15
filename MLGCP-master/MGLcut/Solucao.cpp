@@ -134,7 +134,7 @@ void Solucao::rightoleft (int pos){
 
 }
 
-void Solucao::avalChangePartition(){
+void Solucao::avalChangePartition(Data *d){
     int menor = this->aval; // Assumindo que o menor é meu aval da solução original;
     int ladoF = -1; // Assumind0 que -1 é o lado da solução original.
     int posF = -1;// Assumind0 que -1 é a pos da solução original.
@@ -187,7 +187,7 @@ void Solucao::avalChangePartition(){
             fS = (this->aval + newColors - cRemoved);
             printf("Minha f(s') atual: %d\n", fS);
 
-            if(fS < menor){
+            if(fS <= menor){
                 printf("%d eh menor ou igual do que %d\n", fS, menor);
                 menor = fS; // minha menor f(s) passa a ser f(s').
                 posF = pos; // Posição da menor f(s').
@@ -235,11 +235,11 @@ void Solucao::avalChangePartition(){
                 }
             }
             printf("Calculo do fs: %d + %d - %d\n", this->aval, newColors , cRemoved);
-        // Calculo da minha f(s'):
+            // Calculo da minha f(s'):
             fS = (this->aval + newColors - cRemoved);
             printf("Minha f(s') atual: %d\n", fS);
 
-            if(fS < menor){
+            if(fS <= menor){
                 printf("%d eh menor ou igual do que %d\n", fS, menor);
                 menor = fS; // minha menor f(s) passa a ser f(s').
                 posF = pos; // Posição da menor f(s').
@@ -250,21 +250,132 @@ void Solucao::avalChangePartition(){
        }
 
         printf("Minha menor f(s') tem valor: %d, POS: %d e lado: %d\n", menor, posF, ladoF);
-        PL::lado = ladoF; // retorna o lado .
-        PL::pos = posF;
+        d->lado = ladoF; // retorna o lado .
+        d->pos = posF;
+       // printf("Lado: %d, pos: %d\n", d->lado, d->pos);
 
 
 }
-void Solucao::BestMoviment(Solucao *solCopy){
+void Solucao::avalInterchangePartition(Data *d){
+    int menor = this->aval; // Assumindo que o menor é meu aval da solução original;
+    int posEsqF = -1;// Assumind0 que -1 é a pos da solução original.
+    int posDirF = -1;// Assumind0 que -1 é a pos da solução original.
+
+    //For que faz as combinações necessarias.
+    for (int i = 0; i < this->left.size(); i++) {
+		for (int j = 0; j < this->right.size(); j++) {
+            vector<int> cFreqCopy = this-> cFreq; // vector de cópia. se der errado faz um for.
+            int fS = 0; // variavel que recebe a f(s').
+            int newColors = 0;// cores novas.
+            int cRemoved = 0; // cores removidas.
+            int posEsq = i;
+            int posDir = j;
+            // Comparação com os elementos da esquerda.
+            for (int k = 0; k < this->left.size(); k++){
+                // Recebe a "cor" do elemento da esquerda e compara com a esquerda.
+                int color = this->g->M[left[posEsq]][left[k]];
+                //Recebe a "cor" do elemento da direita e compara com a esquerda.
+                int color2 = this->g->M[right[posDir]][left[k]];
+                //Incrementação do aval e frequencia para o elemento que está indo da esquerda pra direita.
+                if (color != this->g->nLabels) {
+                    // verifca se a cor já foi computada.
+                    if (this->cFreq[color] == 0) {
+                        this->aval++;
+                        this->cFreq[color]++;
+                    }else{
+                        this->cFreq[color]++;
+                    }
+                }
+                //Decrementação do aval e frequencia para o elemento que está indo da direita pra esquerda.
+                if(color2 != this->g->nLabels){
+                    cFreqCopy[color2]--;
+                    // verifica se a frequencia da cor foi pra zero, caso positivo, incremento cores removidas.
+                    if(cFreqCopy[color2]==0){
+                        cRemoved++;
+                    }
+                }
+
+            }
+            // Comparação com os elementos da direita.
+            for (int k = 0; k < this->right.size(); k++){
+                // Recebe a "cor" do elemento da direta e compara com a direita.
+                int color = this->g->M[right[posDir]][right[k]];
+                //Recebe a "cor" do elemento da esquerda e compara com a direita.
+                int color2 = this->g->M[left[posEsq]][right[k]];
+                //Incrementação do aval e frequencia para o elemento que está indo da direta pra esquerda.
+                if (color != this->g->nLabels) {
+                    // verifca se a cor já foi computada.
+                    if (this->cFreq[color] == 0) {
+                        this->aval++;
+                        this->cFreq[color]++;
+                    }else{
+                        this->cFreq[color]++;
+                    }
+                }
+                //Decrementação do aval e frequencia para o elemento que está indo da esquerda pra direita.
+                if(color2 != this->g->nLabels){
+                    cFreqCopy[color2]--;
+                    // verifica se a frequencia da cor foi pra zero, caso positivo, incremento cores removidas.
+                    if(cFreqCopy[color2]==0){
+                        cRemoved++;
+                    }
+                }
+
+            }
+            //Calculo minha f(s') antes de incrementar meu lado direito.
+            printf("Calculo do fs entre as posições %d e %d: %d + %d - %d\n", this->left[i], this->right[j], this->aval, newColors , cRemoved);
+            // Calculo da minha f(s'):
+            fS = (this->aval + newColors - cRemoved);
+            printf("Minha f(s') atual: %d\n", fS);
+
+            if(fS <= menor){
+                printf("%d eh menor ou igual do que %d\n", fS, menor);
+                menor = fS; // minha menor f(s) passa a ser f(s').
+                posEsqF = posEsq; // Posição da esquerda da menor f(s').
+                posDirF = posDir; // Posição da direita da menor f(s').
+            }
+		}
+            //Calculo minha f(s') antes de incrementar meu lado esquerdo.
+            printf("Calculo do fs entre as posições %d e %d: %d + %d - %d\n", this->left[i], this->right[j], this->aval, newColors , cRemoved);
+            // Calculo da minha f(s'):
+            fS = (this->aval + newColors - cRemoved);
+            printf("Minha f(s') atual: %d\n", fS);
+
+            if(fS <= menor){
+                printf("%d eh menor ou igual do que %d\n", fS, menor);
+                menor = fS; // minha menor f(s) passa a ser f(s').
+                posEsqF = posEsq; // Posição da esquerda da menor f(s').
+                posDirF = posDir; // Posição da direita da menor f(s').
+            }
+    }
+     printf("Minha menor f(s') tem valor: %d, POS: %d e lado: %d\n", menor, posF, ladoF);
+        d->leftPosInter = posEsqF; // Posição da esquerda da menor f(s').
+        d->rightPosInter = posDirF;// Posição da direita da menor f(s').
+}
+// Função que retorna uma cópia da minha f(s) com a movimentação adequada.
+void Solucao::BestMoviment(Solucao *solCopy, Data *d){
+    //printf("Lado: %d, pos: %d\n", d->lado, d->pos);
     //Teste: mudança na posição do f(s'):
         // Caso o menor valor seja propria f(s'):
-        if(PL::lado == NO_MOVIMENTS){
+        if(d->lado == NO_MOVIMENTS){
             printf("Minha f(s') eh minha propria f(s).\n");
-        }else if(PL::lado == LEFT_SIDE){// left -> right
-            solCopy->leftoright(PL::pos);
-        }else if(PL::lado == RIGHT_SIDE){//right -> left
-            solCopy->rightoleft(PL::pos);
+        }else if(d->lado == LEFT_SIDE){// left -> right
+            solCopy->leftoright(d->pos);
+        }else if(d->lado == RIGHT_SIDE){//right -> left
+            solCopy->rightoleft(d->pos);
         }
+}
+void Solucao::BestMovimentInterchange(Solucao *solCopy, Data *d){
+    //printf("Lado: %d, pos: %d\n", d->lado, d->pos);
+    //Teste: mudança na posição do f(s'):
+        // Caso o menor valor seja propria f(s'):
+        if(d->leftPosInter == NO_MOVIMENTS){
+            printf("Minha f(s') eh minha propria f(s).\n");
+        }else{
+            solCopy->leftoright(d->leftPosInter);
+            solCopy->rightoleft(d->rightPosInter);
+        }
+
 
 
 }
