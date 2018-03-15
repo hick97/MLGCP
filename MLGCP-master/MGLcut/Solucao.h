@@ -21,5 +21,11 @@ struct Solucao
        void BestMoviment(Solucao *solCopy);
 
 };
+struct PL
+{
+         int pos;
+         int lado;
+};
+
 
 

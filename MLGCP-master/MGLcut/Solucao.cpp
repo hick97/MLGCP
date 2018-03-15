@@ -11,7 +11,7 @@ Solucao::Solucao(Grafo *grafo) : cFreq(grafo->nLabels, 0), aval(0), g(grafo)
 }
 //cópia da solução
 
-Solucao::Solucao(Solucao &sol) : cFreq(sol.cFreq), aval(sol.aval), g(sol.g), right(sol.rigth), left(sol.left)
+Solucao::Solucao(Solucao &sol) : cFreq(sol.cFreq), aval(sol.aval), g(sol.g), right(sol.right), left(sol.left)
 {
 }
 
@@ -250,20 +250,20 @@ void Solucao::avalChangePartition(){
        }
 
         printf("Minha menor f(s') tem valor: %d, POS: %d e lado: %d\n", menor, posF, ladoF);
-        this->PL.lado = ladoF; // retorna o lado .
-        this->PL.pos = posF;
+        PL::lado = ladoF; // retorna o lado .
+        PL::pos = posF;
 
 
 }
 void Solucao::BestMoviment(Solucao *solCopy){
     //Teste: mudança na posição do f(s'):
         // Caso o menor valor seja propria f(s'):
-        if(this->PL.lado == NO_MOVIMENTS){
+        if(PL::lado == NO_MOVIMENTS){
             printf("Minha f(s') eh minha propria f(s).\n");
-        }else if(this->PL.lado == LEFT_SIDE){// left -> right
-            solCopy->leftoright(this->PL.pos);
-        }else if(this->PL.lado == RIGHT_SIDE){//right -> left
-            solCopy->rightoleft(this->PL.pos);
+        }else if(PL::lado == LEFT_SIDE){// left -> right
+            solCopy->leftoright(PL::pos);
+        }else if(PL::lado == RIGHT_SIDE){//right -> left
+            solCopy->rightoleft(PL::pos);
         }
 
 

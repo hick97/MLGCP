@@ -69,14 +69,9 @@ int main(void){
         //Imprime o numero de cores:
         printf("Aval: %d \n", sol.aval);
         //Struct que recebe posição e lado da melhor f(s').
-        struct PL
-        {
-               int pos;
-               int lado;
-        };
 
         sol.avalChangePartition();
-        PL *pL;
+
         Solucao *solCopy = new Solucao(sol);
         sol.BestMoviment(solCopy);
         //printf("%d, %d", fsl[0], fsl[1]);
