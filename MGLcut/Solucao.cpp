@@ -1,17 +1,21 @@
 #include "Solucao.h"
+
 #include<stdio.h>
 #include <iostream>
+#define NO_MOVIMENTS -1
+#define LEFT_SIDE 1
+#define RIGHT_SIDE 0
 
 //Recebe um ponteiro para um grafo e inicia cFreq, aval com 0's.
 Solucao::Solucao(Grafo *grafo) : cFreq(grafo->nLabels, 0), aval(0), g(grafo)
 {
 }
 //cópia da solução
-/*
-Solucao::Solucao(Solucao &sol) : cFreq(sol.cFreq), aval(sol.aval), g(sol.g), rigth(sol.rigth), left(sol.left)
+
+Solucao::Solucao(Solucao &sol) : cFreq(sol.cFreq), aval(sol.aval), g(sol.g), right(sol.right), left(sol.left)
 {
 }
-*/
+
 // Encontra o meu aval.
 int Solucao::f()
 {
@@ -131,7 +135,7 @@ void Solucao::rightoleft (int pos){
 
 }
 
-void Solucao::avalChangePartition(int *v){
+void Solucao::avalChangePartition(Data *d){
     int menor = this->aval; // Assumindo que o menor é meu aval da solução original;
     int ladoF = -1; // Assumind0 que -1 é o lado da solução original.
     int posF = -1;// Assumind0 que -1 é a pos da solução original.
@@ -184,7 +188,7 @@ void Solucao::avalChangePartition(int *v){
             fS = (this->aval + newColors - cRemoved);
             printf("Minha f(s') atual: %d\n", fS);
 
-            if(fS < menor){
+            if(fS <= menor){
                 printf("%d eh menor ou igual do que %d\n", fS, menor);
                 menor = fS; // minha menor f(s) passa a ser f(s').
                 posF = pos; // Posição da menor f(s').
@@ -232,11 +236,11 @@ void Solucao::avalChangePartition(int *v){
                 }
             }
             printf("Calculo do fs: %d + %d - %d\n", this->aval, newColors , cRemoved);
-        // Calculo da minha f(s'):
+            // Calculo da minha f(s'):
             fS = (this->aval + newColors - cRemoved);
             printf("Minha f(s') atual: %d\n", fS);
 
-            if(fS < menor){
+            if(fS <= menor){
                 printf("%d eh menor ou igual do que %d\n", fS, menor);
                 menor = fS; // minha menor f(s) passa a ser f(s').
                 posF = pos; // Posição da menor f(s').
@@ -247,7 +251,135 @@ void Solucao::avalChangePartition(int *v){
        }
 
         printf("Minha menor f(s') tem valor: %d, POS: %d e lado: %d\n", menor, posF, ladoF);
-        v[0] = ladoF; // retorna o lado .
-        v[1] = posF; // retorna a posição;
+        d->side = ladoF; // retorna o lado .
+        d->pos = posF;
+       // printf("Lado: %d, pos: %d\n", d->lado, d->pos);
+
+
+}
+void Solucao::avalInterchangePartition(Data *d2){
+    int menor = this->aval; // Assumindo que o menor é meu aval da solução original;
+    int posEsqF = NO_MOVIMENTS;// Assumind0 que -1 é a pos da solução original.
+    int posDirF = NO_MOVIMENTS;// Assumind0 que -1 é a pos da solução original.
+
+    //For que faz as combinações necessarias.
+    for (int i = 0; i < this->left.size(); i++) {
+		for (int j = 0; j < this->right.size(); j++) {
+            vector<int> cFreqCopy = this-> cFreq; // vector de cópia. se der errado faz um for.
+            int fS = 0; // variavel que recebe a f(s').
+            int newColors = 0;// cores novas.
+            int cRemoved = 0; // cores removidas.
+            int posEsq = i;
+            int posDir = j;
+            // Comparação com os elementos da esquerda.
+            for (int k = 0; k < this->left.size(); k++){
+                // Recebe a "cor" do elemento da esquerda e compara com a esquerda.
+                int color = this->g->M[left[posEsq]][left[k]];
+                //Recebe a "cor" do elemento da direita e compara com a esquerda.
+                int color2 = this->g->M[right[posDir]][left[k]];
+                //Incrementação do aval e frequencia para o elemento que está indo da esquerda pra direita.
+                if (color != this->g->nLabels) {
+                    // verifca se a cor já foi computada.
+                    if (cFreqCopy[color] == 0) {
+                        newColors++;
+                        cFreqCopy[color]++;
+                    }else{
+                        cFreqCopy[color]++;
+                    }
+                }
+                //Decrementação do aval e frequencia para o elemento que está indo da direita pra esquerda.
+                if(color2 != this->g->nLabels){
+                    cFreqCopy[color2]--;
+                    // verifica se a frequencia da cor foi pra zero, caso positivo, incremento cores removidas.
+                    if(cFreqCopy[color2]==0){
+                        cRemoved++;
+                    }
+                }
+
+            }
+            // Comparação com os elementos da direita.
+            for (int k = 0; k < this->right.size(); k++){
+                // Recebe a "cor" do elemento da direta e compara com a direita.
+                int color = this->g->M[right[posDir]][right[k]];
+                //Recebe a "cor" do elemento da esquerda e compara com a direita.
+                int color2 = this->g->M[left[posEsq]][right[k]];
+                //Incrementação do aval e frequencia para o elemento que está indo da direta pra esquerda.
+                if (color != this->g->nLabels) {
+                    // verifca se a cor já foi computada.
+                    if (cFreqCopy[color] == 0) {
+                        newColors++;
+                        cFreqCopy[color]++;
+                    }else{
+                        cFreqCopy[color]++;
+                    }
+                }
+                //Decrementação do aval e frequencia para o elemento que está indo da esquerda pra direita.
+                if(color2 != this->g->nLabels){
+                    cFreqCopy[color2]--;
+                    // verifica se a frequencia da cor foi pra zero, caso positivo, incremento cores removidas.
+                    if(cFreqCopy[color2]==0){
+                        cRemoved++;
+                    }
+                }
+
+            }
+            //Calculo minha f(s') antes de incrementar meu lado direito.
+            printf("Calculo do fs entre as posições %d e %d: %d + %d - %d\n", this->left[i], this->right[j], this->aval, newColors , cRemoved);
+            // Calculo da minha f(s'):
+            fS = (this->aval + newColors - cRemoved);
+            printf("Minha f(s') atual: %d\n", fS);
+
+            if(fS <= menor){
+                printf("%d eh menor ou igual do que %d\n", fS, menor);
+                menor = fS; // minha menor f(s) passa a ser f(s').
+                posEsqF = posEsq; // Posição da esquerda da menor f(s').
+                posDirF = posDir; // Posição da direita da menor f(s').
+            }
+		}
+
+    }
+     printf("Minha menor f(s') tem valor: %d, POS esq: %d e pos Dir: %d\n", menor, posEsqF, posDirF);
+        d2->leftPosInter = posEsqF; // Posição da esquerda da menor f(s').
+        d2->rightPosInter = posDirF;// Posição da direita da menor f(s').
+}
+// Função que retorna uma cópia da minha f(s) com a movimentação adequada.
+void Solucao::BestMoviment(Solucao *solCopy, Data *d){
+    //printf("Lado: %d, pos: %d\n", d->lado, d->pos);
+    //Teste: mudança na posição do f(s'):
+        // Caso o menor valor seja propria f(s'):
+        if(d->side == NO_MOVIMENTS){
+            printf("Minha f(s') eh minha propria f(s).\n");
+        }else if(d->side == LEFT_SIDE){// left -> right
+            solCopy->leftoright(d->pos);
+        }else if(d->side == RIGHT_SIDE){//right -> left
+            solCopy->rightoleft(d->pos);
+        }
+}
+void Solucao::BestMovimentInterchange(Solucao *solCopy2, Data *d2){
+    //printf("Lado: %d, pos: %d\n", d->lado, d->pos);
+    //Teste: mudança na posição do f(s'):
+        // Caso o menor valor seja propria f(s'):
+        if(d2->leftPosInter == NO_MOVIMENTS){
+            printf("Minha f(s') eh minha propria f(s).\n");
+
+        }else{
+            solCopy2->leftoright(d2->leftPosInter);
+             //Imprime a frequencia.
+        printf("Frequencia pos movimentacao: ");
+        for (int i = 0; i < this->g->nLabels; i++) {
+            printf("%d,", solCopy2->cFreq[i]);
+        }
+        printf("\n");
+            solCopy2->rightoleft(d2->rightPosInter);
+             //Imprime a frequencia.
+        printf("Frequencia pos movimentacao: ");
+        for (int i = 0; i < this->g->nLabels; i++) {
+            printf("%d,", solCopy2->cFreq[i]);
+        }
+        printf("\n");
+
+        }
+
+
 
 }

@@ -21,3 +21,64 @@
 	<stdio.h>
 	<iostream>
 
+1521069662 source:c:\users\aluno\desktop\mlgcp-master\mglcut\grafo.cpp
+	"Grafo.h"
+	<stdio.h>
+
+1521069662 c:\users\aluno\desktop\mlgcp-master\mglcut\grafo.h
+	<vector>
+
+1521130732 source:c:\users\aluno\desktop\mlgcp-master\mglcut\main.cpp
+	<stdio.h>
+	<stdlib.h>
+	"Solucao.h"
+	<fstream>
+
+1521131006 c:\users\aluno\desktop\mlgcp-master\mglcut\solucao.h
+	<vector>
+	"Grafo.h"
+
+1521119020 source:c:\users\aluno\desktop\mlgcp-master\mlgcp-master\mglcut\grafo.cpp
+	"Grafo.h"
+	<stdio.h>
+
+1521119020 c:\users\aluno\desktop\mlgcp-master\mlgcp-master\mglcut\grafo.h
+	<vector>
+
+1521151620 source:c:\users\aluno\desktop\mlgcp-master\mlgcp-master\mglcut\solucao.cpp
+	"Solucao.h"
+	<stdio.h>
+	<iostream>
+
+1521151701 c:\users\aluno\desktop\mlgcp-master\mlgcp-master\mglcut\solucao.h
+	<vector>
+	"Grafo.h"
+
+1521151452 source:c:\users\aluno\desktop\mlgcp-master\mlgcp-master\mglcut\main.cpp
+	<stdio.h>
+	<stdlib.h>
+	"Solucao.h"
+	<fstream>
+
+1521220692 source:c:\users\ze carlos\desktop\mlgcp-master\mlgcp-master\mglcut\solucao.cpp
+	"Solucao.h"
+	<stdio.h>
+	<iostream>
+
+1521220148 c:\users\ze carlos\desktop\mlgcp-master\mlgcp-master\mglcut\solucao.h
+	<vector>
+	"Grafo.h"
+
+1521130848 c:\users\ze carlos\desktop\mlgcp-master\mlgcp-master\mglcut\grafo.h
+	<vector>
+
+1521217310 source:c:\users\ze carlos\desktop\mlgcp-master\mlgcp-master\mglcut\grafo.cpp
+	"Grafo.h"
+	<stdio.h>
+
+1521220425 source:c:\users\ze carlos\desktop\mlgcp-master\mlgcp-master\mglcut\main.cpp
+	<stdio.h>
+	<stdlib.h>
+	"Solucao.h"
+	<fstream>
+

@@ -6,6 +6,7 @@
 using namespace std;
 
 int main(void){
+
     // Leitura do numero de vertices e labels.
     std::ifstream file("matriz.txt");
     if(!file){/*falhou em abrir o arquivo*/}
@@ -67,28 +68,39 @@ int main(void){
         printf("\n");
         //Imprime o numero de cores:
         printf("Aval: %d \n", sol.aval);
-        // Vetor com minha posição e lado da menor f(s').
-        int *fsl = (int*) calloc(2, sizeof(int));
-        sol.avalChangePartition(fsl);
-        //printf("%d, %d", fsl[0], fsl[1]);
 
-        //Teste: mudança na posição do f(s'):
-        // Caso o menor valor seja propria f(s'):
-        if(fsl[0] == -1){
-            printf("Minha f(s') eh minha propria f(s).\n");
-        }else if(fsl[0] == 1){// left -> right
-            sol.leftoright(fsl[1]);
-        }else if(fsl[0] == 0){//right -> left
-            sol.rightoleft(fsl[1]);
-        }
-        //Imprime a frequencia.
-        printf("Frequencia pos movimentacao: ");
+        //Struct que recebe posição e lado da melhor f(s').
+        Data *d = new Data;
+        sol.avalChangePartition(d);
+        Solucao *solCopy = new Solucao(sol);
+
+        sol.BestMoviment(solCopy, d);
+
+         //Imprime a frequencia.
+        printf("Frequencia pos movimentacao 1: ");
         for (int i = 0; i < g.nLabels; i++) {
-            printf("%d,", sol.cFreq[i]);
+            printf("%d,", solCopy->cFreq[i]);
         }
         printf("\n");
         //Imprime o numero de cores:
-        printf("Aval: %d \n", sol.aval);
+        printf("Aval: %d \n", solCopy->aval);
+
+        sol.avalInterchangePartition(d);
+        Solucao *solCopy2 = new Solucao(sol);
+        sol.BestMovimentInterchange(solCopy2, d);
+
+         //Imprime a frequencia.
+        printf("Frequencia pos movimentacao 2: ");
+        for (int i = 0; i < g.nLabels; i++) {
+            printf("%d,", solCopy2->cFreq[i]);
+        }
+        printf("\n");
+        //Imprime o numero de cores:
+        printf("Aval: %d \n", solCopy2->aval);
+
+
+
+
 
 
 
