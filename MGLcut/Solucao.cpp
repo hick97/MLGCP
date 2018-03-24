@@ -3,6 +3,7 @@
 #include<stdio.h>
 #include <stdlib.h>
 #include <iostream>
+#include <math.h>
 #define NO_MOVIMENTS -1
 #define LEFT_SIDE 1
 #define RIGHT_SIDE 0
@@ -143,6 +144,7 @@ void Solucao::avalChangePartition(Data *d){
     int ladoF = NO_MOVIMENTS; // Assumind0 que -1 é o lado da solução original.
     int posF = NO_MOVIMENTS;// Assumind0 que -1 é a pos da solução original.
 
+    if(this->left.size()>1){
     // for que percorre todos os vertices da esquerda.
     for(int i = 0; i<this->left.size();i++){
         vector<int> cFreqCopy = this-> cFreq; // vector de cópia. se der errado faz um for.
@@ -171,6 +173,7 @@ void Solucao::avalChangePartition(Data *d){
                     }
                 }
             }
+
             // Verifica a existencia de ligações com elementos da direita.
             for(int j = 0; j<this->right.size();j++){
 
@@ -195,17 +198,18 @@ void Solucao::avalChangePartition(Data *d){
 
 
         // Verifica o menor e garante que um dos lados nao zere.
-            if(fS < menor && fS != 0){
+            if((fS < menor) && (fS != 0)){
                 printf("%d eh menor ou igual do que %d\n", fS, menor);
                 menor = fS; // minha menor f(s) passa a ser f(s').
                 posF = pos; // Posição da menor f(s').
                 ladoF = lado; // lado da menor f(s').
             }
     }
-
+    }
 
     // Caso ele esteja no lado direito indo para o esquerdo:
     // for que percorre os vertices da direita.
+       if(this->right.size()>1){
        for(int i = 0; i<this->right.size();i++){
             vector<int> cFreqCopy = this-> cFreq; // vector de cópia. se der errado faz um for.
             int fS = this->aval; // variavel que recebe a f(s').
@@ -247,6 +251,7 @@ void Solucao::avalChangePartition(Data *d){
             printf("Calculo do fs: %d + %d - %d\n", this->aval, newColors , cRemoved);
             // Calculo da minha f(s'):
 
+
                 fS = (this->aval + newColors - cRemoved);
                 printf("Minha f(s') atual: %d\n", fS);
 
@@ -259,6 +264,7 @@ void Solucao::avalChangePartition(Data *d){
             }
 
 
+       }
        }
 
         printf("Minha menor f(s') tem valor: %d, POS: %d e lado: %d\n", menor, posF, ladoF);
@@ -355,20 +361,20 @@ void Solucao::avalInterchangePartition(Data *d2){
         d2->rightPosInter = posDirF;// Posição da direita da menor f(s').
 }
 // Função que retorna uma cópia da minha f(s) com a movimentação adequada.
-int Solucao::BestMoviment(Solucao *solCopy, Data *d){
+int Solucao::BestMoviment(Data *d){
     //printf("Lado: %d, pos: %d\n", d->lado, d->pos);
     //Teste: mudança na posição do f(s'):
         // Caso o menor valor seja propria f(s'):
         if(d->side == NO_MOVIMENTS){
             return NULL;
         }else if(d->side == LEFT_SIDE){// left -> right
-            solCopy->leftoright(d->pos);
+            this->leftoright(d->pos);
         }else if(d->side == RIGHT_SIDE){//right -> left
-            solCopy->rightoleft(d->pos);
+            this->rightoleft(d->pos);
         }
        return 1;
 }
-int Solucao::BestMovimentInterchange(Solucao *solCopy2, Data *d2){
+int Solucao::BestMovimentInterchange(Data *d2){
     //printf("Lado: %d, pos: %d\n", d->lado, d->pos);
     //Teste: mudança na posição do f(s'):
         // Caso o menor valor seja propria f(s'):
@@ -376,18 +382,18 @@ int Solucao::BestMovimentInterchange(Solucao *solCopy2, Data *d2){
             return NULL;
 
         }else{
-            solCopy2->leftoright(d2->leftPosInter);
+            this->leftoright(d2->leftPosInter);
              //Imprime a frequencia.
         printf("Frequencia pos movimentacao: ");
         for (int i = 0; i < this->g->nLabels; i++) {
-            printf("%d,", solCopy2->cFreq[i]);
+            printf("%d,", this->cFreq[i]);
         }
         printf("\n");
-            solCopy2->rightoleft(d2->rightPosInter);
+            this->rightoleft(d2->rightPosInter);
              //Imprime a frequencia.
         printf("Frequencia pos movimentacao: ");
         for (int i = 0; i < this->g->nLabels; i++) {
-            printf("%d,", solCopy2->cFreq[i]);
+            printf("%d,", this->cFreq[i]);
         }
         printf("\n");
 
@@ -401,7 +407,7 @@ void Solucao::Srand(){
 void Solucao::RandomConstruction (){
 
 	// Variavel que decide quanto elementos irao pra esquerda.
-	int x = 2+(rand()%(this->g->n -3));
+	int x = 1+(rand()%(this->g->n -2));
 	printf("X = %d\n", x);
 
 	//declaração das variáveis
@@ -460,6 +466,9 @@ Solucao* Solucao::MultiVND(int iter){
         Solucao *solCopy = new Solucao(this->g);
         solCopy->RandomConstruction();
         solCopy->f();
+        if(solCopy->aval == 0){
+            abort();
+        }
         printf("Parte esquerda: \n");
         for (int i = 0; i < solCopy->left.size(); i++) {
             printf("%d", solCopy->left[i]);
@@ -484,7 +493,8 @@ Solucao* Solucao::MultiVND(int iter){
 
 
         Data *d = new Data;
-        solCopy->VND(solCopy,d);
+        solCopy->VND(d);
+
         // Definindo a primeira VND como melhor solução.
         if(i==0){
              bestGlobal = solCopy;
@@ -497,29 +507,132 @@ Solucao* Solucao::MultiVND(int iter){
     }
     return bestGlobal;
 }
-void Solucao::VND(Solucao *solCopy, Data *d){
+void Solucao::VND(Data *d){
     //Solucao *solCopy = new Solucao(this);
 
     while(1){
         while(1){
             printf("Movimentacao simples:\n");
-            solCopy->avalChangePartition(d);
+            this->avalChangePartition(d);
 
-            if(solCopy->BestMoviment(solCopy, d) == NULL){
+            if(this->BestMoviment(d) == NULL){
                 break;
             }
+
         }
         printf("Movimentacao Dupla:\n");
-        solCopy->avalInterchangePartition(d);
+        this->avalInterchangePartition(d);
 
-        if(solCopy->BestMovimentInterchange(solCopy, d)== NULL){
+        if(this->BestMovimentInterchange(d)== NULL){
             break;
 
-            printf("Melhor aval encontrado na VND: %d", solCopy->aval);
+            printf("Melhor aval encontrado na VND: %d", this->aval);
 
         }
 
     }
     //return solCopy;
+}
+
+void Solucao::SimpleDisturbance(){
+
+	int side = (rand()% 2); // Decide o lado a ser pertubado.
+	//printf("Side: %d\n", side);
+	int pos = NULL; // Variavel que armazena a posição a ser movimentada;
+
+	if(side == 1){
+        pos = (rand()% this->left.size()); // Escolhe uma posição aleatoria;
+       // printf("pos random esq: %d\n", pos);
+        if(this->left.size()!=1){ // Para não zerar um dos lados.
+            printf("MOV PARA DIR\n");
+            this->leftoright(pos);
+        }else{
+          //  printf("MOV PARA ESQ\n");
+            this->rightoleft(pos);
+        }
+
+	}else{
+         pos = (rand()% this->right.size()); // Escolhe uma posição aleatoria;
+        // printf("pos random dir: %d\n", pos);
+         if(this->right.size()!=1){ // Para não zerar um dos lados.
+           // printf("MOV PARA ESQ\n");
+            this->rightoleft(pos);
+        }else{
+         //   printf("MOV PARA DIR\n");
+            this->leftoright(pos);
+        }
+	}
+
+}
+void Solucao::DoubleDisturbance(){
+
+   int posLeft = (rand()% this->left.size()); // Escolhe uma posição aleatoria esquerda;
+   int posRight = (rand()% this->right.size()); // Escolhe uma posição aleatoria direita;
+   //printf("POS ESQ: %d // POS DIR: %d\n", posLeft, posRight);
+
+   this->leftoright(posLeft);
+   this->rightoleft(posRight);
+
+}
+Solucao* Solucao::VNS(int notImprove){
+        Solucao *bestGlobalVNS;
+        Data *d = new Data;
+        int aux = 0, aux2 = 0,aux3 = 0; // Variaveis auxiliares.
+        int percentage = ceil(0.1*this->g->n); // Numero de chamadas das pertubações.
+        printf("Porcentagem: %d\n", percentage);
+        this->Srand();
+        //Solucao *solCopy = new Solucao(this->g);
+        this->RandomConstruction();
+        this->f();
+        while(aux != notImprove){
+            while(1){
+                 printf("Nao melhora simples: %d\n", aux);
+                //Chamando pertubação simples.
+                printf("Pertubacao simples!\n");
+                for(int i = 0; i< percentage;i++){
+                    this->SimpleDisturbance();
+                }
+                this->VND(d);
+                // Definindo a primeira VND como melhor solução.
+                if(aux2==0){
+                     bestGlobalVNS = this;
+                     aux2++;
+                }
+                printf("GLOBAL: %d // VNS: %d\n", bestGlobalVNS->aval, this->aval);
+                if(this->aval < bestGlobalVNS->aval){ // Se minha nova solução encontrada é melhor que a global.
+                    bestGlobalVNS = this;
+                    aux = 0;
+                }else{
+                    aux++;
+                }
+                if(aux == notImprove){
+                    aux = 0;
+                    break;
+                }
+            }
+            while(1){
+                printf("Nao melhora dupla: %d\n", aux);
+                //Chamando pertubação Dupla.
+                printf("Pertubacao dupla!\n");
+                for(int i = 0; i< percentage;i++){
+                    this->DoubleDisturbance();
+                }
+                this->VND(d);
+                printf("GLOBAL: %d // VNS: %d\n", bestGlobalVNS->aval, this->aval);
+                if(this->aval < bestGlobalVNS->aval){ // Se minha nova solução encontrada é melhor que a global.
+                    bestGlobalVNS = this;
+                    aux = 0;
+                    break;
+                }else{
+                    aux++;
+                }
+                if(aux == notImprove){
+                    break;
+                }
+            }
+
+
+    }
+    return bestGlobalVNS;
 }
 

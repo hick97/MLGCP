@@ -8,7 +8,7 @@ using namespace std;
 int main(void){
 
     // Leitura do numero de vertices e labels.
-    std::ifstream file("matriz.txt");
+    std::ifstream file("100_67_20.txt");
     if(!file){/*falhou em abrir o arquivo*/}
 
     int nVertex;
@@ -34,65 +34,16 @@ int main(void){
      }
 
 	Solucao sol(&g);
-    Solucao *bestSol;
-    bestSol = sol.MultiVND(3);
 
-    printf("MELHOR SOLUCAO GERAL: %d\n", bestSol->aval);
+	//MultiVND:
+    Solucao *bestSolMultVND;
+    bestSolMultVND = sol.MultiVND(25);
+    printf("MELHOR SOLUCAO GERAL MULTI VND: %d\n", bestSolMultVND->aval);
 
-
-/*
-	// Divide os vertices em dois grupos.
-        for (int i = 0; i < g.n; i++) {
-
-            if (i < (g.n / 2)) {
-                sol.left.push_back(i);
-            } else {
-                sol.right.push_back(i);
-
-            }
-        }
-  */
-  // Construção aleatória.
-  //sol.RandomConstruction();
-
-
-        //Frequencia de cada cor.
-       // sol.f();
-
-
-/*
-        //Struct que recebe posição e lado da melhor f(s').
-        Data *d = new Data;
-        sol.avalChangePartition(d);
-        Solucao *solCopy = new Solucao(sol);
-
-        sol.BestMoviment(solCopy, d);
-
-         //Imprime a frequencia.
-        printf("Frequencia pos movimentacao 1: ");
-        for (int i = 0; i < g.nLabels; i++) {
-            printf("%d,", solCopy->cFreq[i]);
-        }
-        printf("\n");
-        //Imprime o numero de cores:
-        printf("Aval: %d \n", solCopy->aval);
-
-        sol.avalInterchangePartition(d);
-        Solucao *solCopy2 = new Solucao(sol);
-        sol.BestMovimentInterchange(solCopy2, d);
-
-         //Imprime a frequencia.
-        printf("Frequencia pos movimentacao 2: ");
-        for (int i = 0; i < g.nLabels; i++) {
-            printf("%d,", solCopy2->cFreq[i]);
-        }
-        printf("\n");
-        //Imprime o numero de cores:
-        printf("Aval: %d \n", solCopy2->aval);
-
-
-*/
-
+    //VNS
+    // Solucao *bestSolVNS;
+   //  bestSolVNS = sol.VNS(15);
+    // printf("MELHOR SOLUCAO GERAL MULTI VNS: %d\n", bestSolVNS->aval);
 
 
 

@@ -6,22 +6,23 @@
 1521130848 c:\users\ze carlos\desktop\mglcut\grafo.h
 	<vector>
 
-1521778845 source:c:\users\ze carlos\desktop\mglcut\main.cpp
+1521915296 source:c:\users\ze carlos\desktop\mglcut\main.cpp
 	<stdio.h>
 	<stdlib.h>
 	"Solucao.h"
 	<fstream>
 
-1521777339 c:\users\ze carlos\desktop\mglcut\solucao.h
+1521911864 c:\users\ze carlos\desktop\mglcut\solucao.h
 	<vector>
 	"Grafo.h"
 
-1521781804 source:c:\users\ze carlos\desktop\mglcut\solucao.cpp
+1521919256 source:c:\users\ze carlos\desktop\mglcut\solucao.cpp
 	"Solucao.h"
 	<time.h>
 	<stdio.h>
 	<stdlib.h>
 	<iostream>
+	<math.h>
 
 1521069662 source:c:\users\aluno\desktop\mlgcp-master\mglcut\grafo.cpp
 	"Grafo.h"

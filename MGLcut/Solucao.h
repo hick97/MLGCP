@@ -26,12 +26,15 @@ struct Solucao
        void rightoleft(int b);
        void avalChangePartition(Data *d);
        void avalInterchangePartition(Data *d2);
-       int BestMoviment(Solucao *solCopy, Data *d);
-       int BestMovimentInterchange(Solucao *solCopy, Data *d2);
+       int BestMoviment(Data *d);
+       int BestMovimentInterchange(Data *d2);
        void RandomConstruction();
-       void VND(Solucao *s, Data *d3);
+       void VND( Data *d3);
        Solucao* MultiVND(int iter);
        void Srand();
+       void SimpleDisturbance();
+       void DoubleDisturbance();
+       Solucao* VNS(int notImprove);
 
 };
 
