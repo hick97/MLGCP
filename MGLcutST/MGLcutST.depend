@@ -1,0 +1,28 @@
+# depslib dependency file v1.0
+1522435746 source:c:\users\ze carlos\desktop\mglcutst\main.cpp
+	<stdio.h>
+	<stdlib.h>
+	"Solucao.h"
+	<fstream>
+
+1522524383 c:\users\ze carlos\desktop\mglcutst\solucao.h
+	<vector>
+	"Grafo.h"
+
+1522533634 c:\users\ze carlos\desktop\mglcutst\grafo.h
+	<vector>
+
+1522533728 source:c:\users\ze carlos\desktop\mglcutst\grafo.cpp
+	"Grafo.h"
+	<stdio.h>
+	<iostream>
+
+1522535955 source:c:\users\ze carlos\desktop\mglcutst\solucao.cpp
+	"Solucao.h"
+	<time.h>
+	<stdio.h>
+	<stdlib.h>
+	<iostream>
+	<math.h>
+	<vector>
+
