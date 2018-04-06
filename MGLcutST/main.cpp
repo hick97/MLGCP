@@ -21,15 +21,26 @@ int main(void){
 	Grafo g(nVertex, nLabels);
 	for (int i = 0; i < g.n; i++) {
             for (int j = i; j < g.n; j++) {
-                if(!(file >> g.M[i][j])) {/*falhou em ler um dos valores*/}
+		int cor;
+                if(!(file >> cor) {/*falhou em ler um dos valores*/}
 
-                g.M[j][i] = g.M[i][j];
                 //Lista de adjacencia:
-                if(g.M[i][j] < g.nLabels)
+                if(cor < g.nLabels)
                 {
-                    g.L[i].push_back(j);
+         	    g.M[i][j].push_back(cor);
+		    g.M[j][i].push_back(cor);
+		    
+		    g.Ml[cor][i][j] = 1;
+		    g.Ml[cor][j][i] = 1;
+			
+		    g.L[i].push_back(j);
                     g.L[j].push_back(i);
-                }
+                }else
+		{
+		    g.Ml[cor][i][j] = 0;
+		    g.Ml[cor][j][i] = 0;
+		
+		}
             }
      }
 
