@@ -21,6 +21,7 @@ int main(void){
 	Grafo g(nVertex, nLabels);
 	for (int i = 0; i < g.n; i++) {
             for (int j = i; j < g.n; j++) {
+		vector<int>  posInitial;  
 		int cor;
                 if(!(file >> cor) {/*falhou em ler um dos valores*/}
 
@@ -35,6 +36,9 @@ int main(void){
 			
 		    g.L[i].push_back(j);
                     g.L[j].push_back(i);
+				
+		    g.Ll[cor][i].push_back(j);
+                    g.Ll[cor][j].push_back(i);
                 }else
 		{
 		    g.Ml[cor][i][j] = 0;
