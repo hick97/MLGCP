@@ -13,13 +13,18 @@ struct Grafo
        vector< vector< vector<int> > > M; 
        // adjacency lists
        vector< vector<int> > L;
-         //matriz separada por cor (Mlij)
+         
+       //Estruturas separadas por cor
+       //matriz (Mlij)
        vector< vector< vector<int> > > Ml;
+       //Lista de adjacencia Lli
+       vector< vector< vector<int> > > Ll;
          
        Grafo(int nVert, int nl);
 
        void AddVirtualEdges(Data *d, int color);
        void DFSUtil(int v, bool visited[]);
        void DFS(int pos,Data *d);
+       void VirtualEdges();
        //void FillsMatrix();
 };
