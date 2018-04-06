@@ -9,10 +9,13 @@ struct Data
 struct Grafo
 {
        int n, nLabels;
-       vector< vector<int> > M;
+       //Matriz do Fecho cromatico
+       vector< vector< vector<int> > > M; 
        // adjacency lists
        vector< vector<int> > L;
-
+         //matriz separada por cor (Mlij)
+       vector< vector< vector<int> > > Ml;
+         
        Grafo(int nVert, int nl);
 
        void AddVirtualEdges(Data *d, int color);
