@@ -3,10 +3,18 @@
 #include <iostream>
 using namespace std;
 
-Grafo::Grafo(int nVert, int nl) : M(nVert), L(nVert), n(nVert), nLabels(nl)
+Grafo::Grafo(int nVert, int nl) : M(nVert), L(nVert), Ml(nl), n(nVert), nLabels(nl)
 {
      for(int i=0; i<this->n; ++i)
            M[i].resize(this->n);
+     
+     for(int i=0; i<this->nLabels; ++i)
+     {
+          Ml[i].resize(this->n);
+          for(int j=0; j<this->n; ++j)
+               Ml[i][j].resize(this->n);
+     }
+      
 }
 
 void Grafo::DFSUtil(int v, bool visited[])
