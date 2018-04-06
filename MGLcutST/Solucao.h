@@ -14,7 +14,6 @@ struct Solucao
 
        Solucao(Grafo *grafo);
        Solucao(Solucao &sol);
-       void VirtualEdges();
 
 };
 
